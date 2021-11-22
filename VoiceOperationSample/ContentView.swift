@@ -9,8 +9,17 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        NavigationView {
+            VStack {
+                Button {
+                } label: {
+                    Text("SFSpeechRecognizer")
+                        .padding()
+                }
+            }
+            .navigationTitle("音声操作サンプル？")
+            .navigationBarTitleDisplayMode(.inline)
+        }
     }
 }
 
