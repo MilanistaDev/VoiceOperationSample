@@ -11,8 +11,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Button {
-                } label: {
+                NavigationLink(destination: VoiceOperationView()) {
                     Text("SFSpeechRecognizer")
                         .padding()
                 }

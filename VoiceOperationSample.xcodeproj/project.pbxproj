@@ -11,6 +11,7 @@
 		FD033B72274BCCA20034FB35 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD033B71274BCCA20034FB35 /* ContentView.swift */; };
 		FD033B74274BCCA40034FB35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD033B73274BCCA40034FB35 /* Assets.xcassets */; };
 		FD033B77274BCCA40034FB35 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD033B76274BCCA40034FB35 /* Preview Assets.xcassets */; };
+		FD033B7E274BCF050034FB35 /* VoiceOperationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD033B7D274BCF050034FB35 /* VoiceOperationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		FD033B71274BCCA20034FB35 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FD033B73274BCCA40034FB35 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FD033B76274BCCA40034FB35 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		FD033B7D274BCF050034FB35 /* VoiceOperationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceOperationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 			children = (
 				FD033B6F274BCCA20034FB35 /* VoiceOperationSampleApp.swift */,
 				FD033B71274BCCA20034FB35 /* ContentView.swift */,
+				FD033B7D274BCF050034FB35 /* VoiceOperationView.swift */,
 				FD033B73274BCCA40034FB35 /* Assets.xcassets */,
 				FD033B75274BCCA40034FB35 /* Preview Content */,
 			);
@@ -138,6 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD033B72274BCCA20034FB35 /* ContentView.swift in Sources */,
+				FD033B7E274BCF050034FB35 /* VoiceOperationView.swift in Sources */,
 				FD033B70274BCCA20034FB35 /* VoiceOperationSampleApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
