@@ -9,7 +9,7 @@ import SwiftUI
 
 struct VoiceOperationView: View {
 
-    @State private var text = "ボタンを押して発話してください。"
+    @State private var text = "結果"
 
     var body: some View {
         VStack {
@@ -21,8 +21,14 @@ struct VoiceOperationView: View {
             }
             .frame(height: 250.0)
             .padding(.top, 60.0)
+            Text("ボタンを押して発話してください。")
+                .font(.footnote)
+                .bold()
+                .padding()
             Text(text)
                 .font(.footnote)
+                .foregroundColor(.gray)
+                .frame(maxWidth: .infinity)
                 .padding()
             Spacer()
             Button {
