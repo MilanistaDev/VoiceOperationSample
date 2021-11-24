@@ -11,6 +11,7 @@ import Speech
 final class VoiceOperationViewModel: ObservableObject {
 
     @Published var isAuthorized = false
+    @Published var isShowAlert = false
 
     func checkStatus() {
         SFSpeechRecognizer.requestAuthorization { authStatus in
@@ -20,6 +21,7 @@ final class VoiceOperationViewModel: ObservableObject {
                     self.isAuthorized = true
                 case .denied, .restricted, .notDetermined:
                     self.isAuthorized = false
+                    self.isShowAlert = true
                 @unknown default:
                     fatalError()
                 }

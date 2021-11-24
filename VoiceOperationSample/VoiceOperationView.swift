@@ -53,6 +53,11 @@ struct VoiceOperationView: View {
         .onAppear {
             viewModel.checkStatus()
         }
+        .alert(isPresented: $viewModel.isShowAlert) {
+            Alert(title: Text("確認"),
+                  message: Text("音声認識機能使用不可です。音声認識利用を許可してください。"),
+                  dismissButton: .default(Text("OK")))
+        }
     }
 }
 
