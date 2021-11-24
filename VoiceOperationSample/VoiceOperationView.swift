@@ -9,6 +9,7 @@ import SwiftUI
 
 struct VoiceOperationView: View {
 
+    @ObservedObject var viewModel = VoiceOperationViewModel()
     @State private var text = "結果"
 
     var body: some View {
@@ -40,14 +41,18 @@ struct VoiceOperationView: View {
                     .foregroundColor(.white)
                     .frame(height: 44.0)
                     .frame(maxWidth: .infinity)
-                    .background(Color.blue)
+                    .background(viewModel.isAuthorized ? Color.blue: Color.gray)
                     .cornerRadius(8.0)
             }
+            .disabled(!viewModel.isAuthorized)
             .padding(.bottom, 16.0)
 
         }
         .padding(.horizontal, 20.0)
         .navigationTitle("SFSpeechRecognizer")
+        .onAppear {
+            viewModel.checkStatus()
+        }
     }
 }
 
