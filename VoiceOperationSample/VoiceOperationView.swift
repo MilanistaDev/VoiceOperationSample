@@ -10,7 +10,6 @@ import SwiftUI
 struct VoiceOperationView: View {
 
     @ObservedObject var viewModel = VoiceOperationViewModel()
-    @State private var text = "結果"
 
     var body: some View {
         VStack {
@@ -26,22 +25,22 @@ struct VoiceOperationView: View {
                 .font(.footnote)
                 .bold()
                 .padding()
-            Text(text)
+            Text(viewModel.recognizedText)
                 .font(.footnote)
                 .foregroundColor(.gray)
                 .frame(maxWidth: .infinity)
                 .padding()
             Spacer()
             Button {
-
+                viewModel.toggleRecognitionStatus()
             } label: {
-                Text("認識ボタン")
+                Text(viewModel.isRecognized ? "認識終了": "認識開始")
                     .font(.subheadline)
                     .bold()
                     .foregroundColor(.white)
                     .frame(height: 44.0)
                     .frame(maxWidth: .infinity)
-                    .background(viewModel.isAuthorized ? Color.blue: Color.gray)
+                    .background(viewModel.isAuthorized ? (viewModel.isRecognized ? Color.red: Color.green): Color.gray)
                     .cornerRadius(8.0)
             }
             .disabled(!viewModel.isAuthorized)
