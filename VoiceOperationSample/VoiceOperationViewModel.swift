@@ -18,7 +18,7 @@ final class VoiceOperationViewModel: ObservableObject {
     private var audioEngine: AVAudioEngine
     private var speechRecognizer: SFSpeechRecognizer
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest
-    private var recognitionTask: SFSpeechRecognitionTask?
+    private var recognitionTask: SFSpeechRecognitionTask!
 
     init() {
         self.audioEngine = AVAudioEngine()
@@ -64,17 +64,49 @@ final class VoiceOperationViewModel: ObservableObject {
     func toggleRecognitionStatus() {
         isRecognized.toggle()
         if isRecognized {
+            recognizedText = "認識中..."
             startRecognition()
         } else {
-            startRecognition()
+            stopRecognition()
         }
     }
 
     private func startRecognition() {
-
+        do {
+            // 音声認識タスクの停止
+            if recognitionTask != nil {
+                recognitionTask.cancel()
+                recognitionTask.finish()
+                recognitionTask = nil
+            }
+            // 入力ノードの生成
+            let inputNode = self.audioEngine.inputNode
+            let recordingFormat = inputNode.outputFormat(forBus: 0)
+            inputNode.installTap(onBus: 0, bufferSize: 2048, format: recordingFormat) {(buffer, time) in
+                self.recognitionRequest.append(buffer)
+            }
+            // 音声認識の開始
+            audioEngine.prepare()
+            try audioEngine.start()
+            recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest, resultHandler: {(result, error) in
+                if let error = error {
+                    print("\(error)")
+                } else {
+                    if let result = result {
+                        DispatchQueue.main.async {
+                            self.recognizedText = result.bestTranscription.formattedString
+                        }
+                    }
+                }
+            })
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 
     private func stopRecognition() {
-
+        audioEngine.stop()
+        audioEngine.inputNode.removeTap(onBus: 0)
+        recognitionRequest.endAudio()
     }
 }
