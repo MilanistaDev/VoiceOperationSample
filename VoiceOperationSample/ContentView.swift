@@ -16,9 +16,10 @@ struct ContentView: View {
                         .padding()
                 }
             }
-            .navigationTitle("音声操作サンプル？")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("音声操作サンプル？")
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
