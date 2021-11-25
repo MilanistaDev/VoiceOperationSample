@@ -15,7 +15,7 @@ struct VoiceOperationView: View {
         VStack {
             ZStack {
                 Rectangle()
-                    .fill(Color.white)
+                    .fill(setColor())
                 Rectangle()
                     .strokeBorder(Color.gray, lineWidth: 1)
             }
@@ -31,6 +31,9 @@ struct VoiceOperationView: View {
                 .frame(maxWidth: .infinity)
                 .padding()
             Spacer()
+            Text("#赤にして #青にして #緑にして #黒にして")
+                .font(.caption)
+                .foregroundColor(.blue)
             Button {
                 viewModel.toggleRecognitionStatus()
             } label: {
@@ -56,6 +59,20 @@ struct VoiceOperationView: View {
             Alert(title: Text("確認"),
                   message: Text("音声認識機能使用不可です。音声認識利用を許可してください。"),
                   dismissButton: .default(Text("OK")))
+        }
+    }
+
+    private func setColor() -> Color {
+        if viewModel.recognizedText.contains("赤にして") {
+            return .red
+        } else if viewModel.recognizedText.contains("青にして") {
+            return .blue
+        } else if viewModel.recognizedText.contains("緑にして") {
+            return .green
+        } else if viewModel.recognizedText.contains("黒にして") {
+            return .black
+        } else {
+            return .white
         }
     }
 }

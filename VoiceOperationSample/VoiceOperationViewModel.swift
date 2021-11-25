@@ -22,7 +22,7 @@ final class VoiceOperationViewModel: ObservableObject {
 
     init() {
         self.audioEngine = AVAudioEngine()
-        self.speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "ja-JP"))!
+        self.speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "ja_JP"))!
         self.recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
     }
 
