@@ -33,6 +33,8 @@ final class VoiceOperationViewModel: ObservableObject {
                 case .authorized:
                     self.isAuthorized = true
                     self.setupAudioSession()
+                    // 音声認識の許可が取れたらすぐに認識状態へ
+                    // self.toggleRecognitionStatus()
                 case .denied, .restricted, .notDetermined:
                     self.isAuthorized = false
                     self.isShowAlert = true
@@ -97,6 +99,7 @@ final class VoiceOperationViewModel: ObservableObject {
                         DispatchQueue.main.async {
                             self.recognizedText = result.bestTranscription.formattedString
                         }
+                        // 認識結果に特定の音声コマンドが含まれていれば認識状態を終了
                         for type in VoiceCommandType.allCases {
                             if result.bestTranscription.formattedString.contains(type.name) {
                                 self.toggleRecognitionStatus()
@@ -123,5 +126,8 @@ final class VoiceOperationViewModel: ObservableObject {
         recognitionRequest!.endAudio()
         audioEngine.stop()
         audioEngine.inputNode.removeTap(onBus: 0)
+
+        // 認識状態終了後再度認識状態へ
+        // toggleRecognitionStatus()
     }
 }
