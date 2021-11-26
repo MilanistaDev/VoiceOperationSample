@@ -17,13 +17,12 @@ final class VoiceOperationViewModel: ObservableObject {
 
     private var audioEngine: AVAudioEngine
     private var speechRecognizer: SFSpeechRecognizer
-    private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest
-    private var recognitionTask: SFSpeechRecognitionTask!
+    private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
+    private var recognitionTask: SFSpeechRecognitionTask?
 
     init() {
         self.audioEngine = AVAudioEngine()
         self.speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "ja_JP"))!
-        self.recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
     }
 
     /// 音声認識の許可状態をチェック
@@ -46,12 +45,6 @@ final class VoiceOperationViewModel: ObservableObject {
 
     private func setupAudioSession() {
         do {
-            // オンデバイス音声認識対応しているか
-            if speechRecognizer.supportsOnDeviceRecognition {
-                recognitionRequest.requiresOnDeviceRecognition = true
-            }
-            // 中間結果の取得を行うか
-            recognitionRequest.shouldReportPartialResults = true
             // オーディオセッションの準備
             let audioSession = AVAudioSession.sharedInstance()
             try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
@@ -74,21 +67,29 @@ final class VoiceOperationViewModel: ObservableObject {
     private func startRecognition() {
         do {
             // 音声認識タスクの停止
-            if recognitionTask != nil {
+            if let recognitionTask = recognitionTask {
                 recognitionTask.cancel()
                 recognitionTask.finish()
-                recognitionTask = nil
+                self.recognitionTask = nil
             }
+
+            recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
+            // オンデバイス音声認識対応しているか
+            if speechRecognizer.supportsOnDeviceRecognition {
+                recognitionRequest!.requiresOnDeviceRecognition = true
+            }
+            // 中間結果の取得を行うか
+            recognitionRequest!.shouldReportPartialResults = true
             // 入力ノードの生成
             let inputNode = self.audioEngine.inputNode
             let recordingFormat = inputNode.outputFormat(forBus: 0)
-            inputNode.installTap(onBus: 0, bufferSize: 2048, format: recordingFormat) {(buffer, time) in
-                self.recognitionRequest.append(buffer)
+            inputNode.installTap(onBus: 0, bufferSize: 2048, format: recordingFormat) { (buffer, time) in
+                self.recognitionRequest!.append(buffer)
             }
             // 音声認識の開始
             audioEngine.prepare()
             try audioEngine.start()
-            recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest, resultHandler: {(result, error) in
+            recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest!, resultHandler: { (result, error) in
                 if let error = error {
                     print("\(error)")
                 } else {
@@ -113,10 +114,13 @@ final class VoiceOperationViewModel: ObservableObject {
     }
 
     private func stopRecognition() {
+        guard let recognitionTask = recognitionTask else {
+            fatalError()
+        }
         recognitionTask.cancel()
         recognitionTask.finish()
-        recognitionTask = nil
-        recognitionRequest.endAudio()
+        self.recognitionTask = nil
+        recognitionRequest!.endAudio()
         audioEngine.stop()
         audioEngine.inputNode.removeTap(onBus: 0)
     }
