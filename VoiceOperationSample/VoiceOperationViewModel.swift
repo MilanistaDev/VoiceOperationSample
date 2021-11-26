@@ -96,6 +96,9 @@ final class VoiceOperationViewModel: ObservableObject {
                         DispatchQueue.main.async {
                             self.recognizedText = result.bestTranscription.formattedString
                         }
+                        if result.isFinal {
+                            self.toggleRecognitionStatus()
+                        }
                     }
                 }
             })
