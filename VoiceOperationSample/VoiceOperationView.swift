@@ -31,9 +31,16 @@ struct VoiceOperationView: View {
                 .frame(maxWidth: .infinity)
                 .padding()
             Spacer()
-            Text("#赤にして #青にして #緑にして #黒にして")
-                .font(.caption)
-                .foregroundColor(.blue)
+            HStack {
+                ForEach(VoiceCommandType.allCases, id: \.self) { type in
+                    Text(type.name)
+                        .font(.caption)
+                        .foregroundColor(type.color)
+                        .padding(.horizontal, 10.0)
+                        .padding(.vertical, 4.0)
+                        .overlay(RoundedRectangle(cornerRadius: 16).stroke(type.color, lineWidth: 1))
+                }
+            }
             Button {
                 viewModel.toggleRecognitionStatus()
             } label: {
