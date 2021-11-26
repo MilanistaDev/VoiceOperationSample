@@ -3,7 +3,7 @@
 This app is a sample app that recognizes specific voice commands such as  
 "make it red", "make it blue", "make it green", and "make it black" and  
 change the background color of the view in the frame.  
-Voice commands is only Japanese. So partial rewriting is required when using in English.
+Voice commands are only Japanese in this sample. So partial rewriting is required when using in English.
 
 このアプリは、「赤にして」「青にして」「緑にして」「黒にして」などの特定の音声コマンドを認識して枠内のビューの背景色を変えるサンプルアプリです。
 
