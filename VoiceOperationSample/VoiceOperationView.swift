@@ -33,7 +33,7 @@ struct VoiceOperationView: View {
             Spacer()
             HStack {
                 ForEach(VoiceCommandType.allCases, id: \.self) { type in
-                    Text(type.name)
+                    Text("#" + type.name)
                         .font(.caption)
                         .foregroundColor(type.color)
                         .padding(.horizontal, 10.0)

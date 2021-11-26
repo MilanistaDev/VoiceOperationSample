@@ -96,6 +96,11 @@ final class VoiceOperationViewModel: ObservableObject {
                         DispatchQueue.main.async {
                             self.recognizedText = result.bestTranscription.formattedString
                         }
+                        for type in VoiceCommandType.allCases {
+                            if result.bestTranscription.formattedString.contains(type.name) {
+                                self.toggleRecognitionStatus()
+                            }
+                        }
                         if result.isFinal {
                             self.toggleRecognitionStatus()
                         }
@@ -108,8 +113,11 @@ final class VoiceOperationViewModel: ObservableObject {
     }
 
     private func stopRecognition() {
+        recognitionTask.cancel()
+        recognitionTask.finish()
+        recognitionTask = nil
+        recognitionRequest.endAudio()
         audioEngine.stop()
         audioEngine.inputNode.removeTap(onBus: 0)
-        recognitionRequest.endAudio()
     }
 }

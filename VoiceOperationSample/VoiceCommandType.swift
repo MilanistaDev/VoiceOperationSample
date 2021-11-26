@@ -16,13 +16,13 @@ enum VoiceCommandType: Int, CaseIterable {
     var name: String {
         switch self {
         case .red:
-            return "#赤にして"
+            return "赤にして"
         case .blue:
-            return "#青にして"
+            return "青にして"
         case .green:
-            return "#緑にして"
+            return "緑にして"
         case .black:
-            return "#黒にして"
+            return "黒にして"
         }
     }
 
